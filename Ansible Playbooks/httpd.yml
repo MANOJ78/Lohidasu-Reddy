@@ -1,0 +1,15 @@
+---
+- hosts: all
+  sudo: True
+  tasks:
+  - apt: name=$item state=latest
+    with_items:
+     - ntp
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  - yum: name=$item state=latest
+    with_items:
+     - ntp
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+  - service: name=httpd state=started enabled=yes
